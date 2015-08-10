@@ -14,10 +14,9 @@ Boolean darkTheme = false;
 PFont font;
 
 void setup () {
-  //size(1000, 600, P2D);
-  //fullScreen();
+  frameRate(60);
+//  size(1000, 600, P2D);
   size(window.innerWidth, window.innerHeight, P2D);
-//  size(displayWidth, displayHeight); 
   a = new atom(320, 240, false);
   b = new atom(380, 240, true);
   atoms = new ArrayList();
@@ -27,10 +26,8 @@ void setup () {
   grid = new spacegrid(42, int(round(42.0/width*height)));
   //  grid = new spacegrid(42,24);
   colorMode(HSB, 100);
-//  bkgColor = color(0, 0, 0, 10);
-//  bkgColor = color(0, 0, 0, 20);
+  background(0);
   bkgColor = color(0, 0, 100, 20);
-//  background(color(0,0,50,100));
   smooth();
 //  font = createFont("Helvetica", width/20, true);
 //  textFont(font, width/20);
@@ -92,15 +89,12 @@ void keyPressed() {
 //    if (darkTheme) {
 //      bkgColor = color(0, 0, 100, 20);
 //    } else {
-//      bkgColor = color(0, 0, 7, 20);
+//      bkgColor = color(0, 0, 0, 20);
 //    }
 //    darkTheme = !darkTheme;
 //  }
-
-  if (key == 'r' || key == 'R') {
-    atoms.removeAll;
-  }
 }
+
 // Copyright (c) 2015 Diego Montoya diego_montoya@outlook.com
 
 /* atom class */
@@ -295,8 +289,8 @@ class spacegrid{
       float dx = gravityX - px[i];
       float dy = gravityY - py[i];
       float dis = sqrt(sq(dx) + sq(dy)) / factor / gravity;
-      //float normdx = dx / dis;
-      //float normdy = dy / dis;
+      float normdx = dx / dis;
+      float normdy = dy / dis;
 //      px[i] += dx * exp(-dis*dis/3000);
 //      py[i] += dy * exp(-dis*dis/3000);
       if (gravity > 0){
@@ -313,10 +307,10 @@ class spacegrid{
     
   void drawGrid(){
     strokeWeight(2);
-    stroke(120/3.6, 80, 20);
+    stroke(120/3.6, 20, 15);
 //    noFill();
 //    rect(0,0,width,height);
-    //float alpaChannel;
+    float alpaChannel;
     
     caculateGainAndOffset();
     
@@ -329,8 +323,8 @@ class spacegrid{
         float x2 = px[ (i+1) * gridPointsX + (j+0)];
         float y2 = py[ (i+1) * gridPointsX + (j+0)];
         
-        //float x3 = px[ (i+1) * gridPointsX + (j+1)];
-        //float y3 = py[ (i+1) * gridPointsX + (j+1)];
+        float x3 = px[ (i+1) * gridPointsX + (j+1)];
+        float y3 = py[ (i+1) * gridPointsX + (j+1)];
         
         float x4 = px[ (i+0) * gridPointsX + (j+1)];
         float y4 = py[ (i+0) * gridPointsX + (j+1)];
@@ -344,8 +338,6 @@ class spacegrid{
         y4 = (y4 - zoomCenterY) * gain + offsetY + zoomCenterY;
         line(x1, y1, x2, y2);
         line(x1, y1, x4, y4);
-//        line(x2,y2,x4,y4);
-//        line(x1,y1,x3,y3);
         //noStroke();
         //beginShape(TRIANGLE_STRIP); vertex(x1, y1, z1); vertex(x2, y2, z2); vertex(x4, y4, z4); vertex(x3, y3, z3); endShape();
       } // end for j 
